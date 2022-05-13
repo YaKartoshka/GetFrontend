@@ -1,0 +1,155 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: #2D3757;
+}
+#frontblock{
+  display: flex;
+  flex-direction:column;
+  padding-top: 70px;
+
+}
+.nav-item{
+  color:white;
+}
+.navbar-nav{
+  align-items: center;
+}
+.temp{
+  padding-top: 9px;
+}
+#temp{
+  color: white;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+#frontinside{
+  display: flex;
+
+}
+#titlename{
+  color: white;
+}
+.text{
+  font-size: 1.5vw;
+}
+#introblock{
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+  padding-top: 20px;
+
+  }
+.intro_name{
+  font-size: 3vw;
+
+}
+#intro_inside{
+  font-size:1.5vw;
+}
+#review{
+  color: white;
+}
+.form-label{
+  color: white;
+}
+#choose_block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 60px;
+}
+.title_choose{
+align-items: center;
+font-size: 4vw;
+padding-bottom: 20px;
+}
+.butn{
+  font-size: 3vw;
+  color: white;
+}
+.space{
+  width: 200px;
+  height: auto;
+  display: inline-block;
+}
+.choices{
+display: inline;
+}
+
+.comments{
+  color: white;
+}
+#sec_inside{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.cards{
+  display: flex;
+  align-items: center;
+  padding-left:130px;
+}
+
+#info_title{
+  font-size: 3vw;
+}
+#aboutus{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+/*------------------------------------------------------------------------------------------------*/
+#first_block {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.first_inside{
+  display: flex;
+  align-items: center;
+  font-size: 1.5vw;
+}
+#second_block {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.second_inside{
+  display: flex;
+  align-items: center;
+  font-size: 1.5vw;
+}
+/*----------------------------------------------------------------------------------------------------*/
+
+.dead_inside{
+  padding-top: 150px;
+}
+#login_title{
+  display: flex;
+  justify-content: center;
+}
+#good{
+font-size: 5vw;
+color:  rgb(209,56,26);
+}
+
+#code{
+  font-size: 5vw;
+  color:rgb(0,155,215);
+
+}
+#for_admins{
+  background-color: rgb(24, 21, 21);
+  color: white;
+}

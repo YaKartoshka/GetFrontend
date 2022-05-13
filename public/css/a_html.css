@@ -1,0 +1,32 @@
+body{ 
+    background-color: #8694bf; 
+  } 
+  .navbar-nav{
+   align-items: center;
+ }
+ .nav-item{
+    color:white;
+ }
+ #temp{
+   padding-top: 9px;
+   color: white;
+ }
+ .section2{ 
+    margin: 15%; 
+    background-color: #8694bf; 
+    color: white; 
+    padding: 55 px; 
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; 
+    font-size: 20 px; 
+    text-align: left; 
+    line-height: 1.3; 
+ } 
+ .section2 h1{ 
+    margin-bottom: 5%; 
+ } 
+ .section2 h2{ 
+    margin-bottom: 5%; 
+ } 
+ .section2 h4{ 
+    margin-bottom: 5%; 
+ }

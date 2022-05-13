@@ -1,0 +1,41 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "main": "back.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node back"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "bootstrap": "^5.1.3",
+    "cool-ascii-faces": "^1.3.4",
+    "css": "^3.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "git": "^0.1.5",
+    "gut": "^0.2.0",
+    "https": "^1.0.0",
+    "jquery": "^3.6.0",
+    "mongo": "^0.1.0",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.3.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.31"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YaKartoshka/Web-Backend2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YaKartoshka/Web-Backend2/issues"
+  },
+  "homepage": "https://github.com/YaKartoshka/Web-Backend2#readme",
+  "description": ""
+}
