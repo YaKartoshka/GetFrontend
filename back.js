@@ -15,7 +15,7 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbConfig = require('./config/database.config.js');
 const mongoose=require('mongoose');
 const cool = require('cool-ascii-faces');
-const require('dotenv').config()
+const dotenv= require('dotenv').config()
 console.log(process.env)
 app.use('/', userRoute);
 app.use(express.json());
