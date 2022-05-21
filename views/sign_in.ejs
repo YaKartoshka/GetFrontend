@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container p-5 my-5 bg-dark text-white" id="login">
+    <form action="/user/login" method="POST">
     <div id="login_title"><h1 id="good">Good</h1><h1 id="code">Code</h1></div>
     <div class="dead_inside">
         <div class="email_inside"><input type="text" class="form-control" placeholder="Your Email" name="email"></div>
@@ -19,10 +20,10 @@
     </div>
 
     <div class="main_buttons">
-        <div class="btn bg-primary" id="sign_in"><a href="main">Sign In</a></div>
-        <br>
+        <button type="submit" class="btn btn-dark bg-primary toy">Sign In</button>
         <div class="btn bg-primary toy" id="sign_up"><a href="sign_up">Sign Up</a></div>
     </div>
+    
 </div>
 </body>
 </html>

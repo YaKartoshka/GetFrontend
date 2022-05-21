@@ -9,11 +9,14 @@ const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=$
 const fs = require('fs');
 const UserModel = require('./models/user.js')
 const bodyParser=require('body-parser');
+const encrypt = require('mongoose-encryption');
 const userRoute=require('./routes/userRoutes.js')
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbConfig = require('./config/database.config.js');
 const mongoose=require('mongoose');
 const cool = require('cool-ascii-faces');
+const require('dotenv').config()
+console.log(process.env)
 app.use('/', userRoute);
 app.use(express.json());
 mongoose.Promise=global.Promise;

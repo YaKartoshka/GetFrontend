@@ -5,9 +5,9 @@ const https=require('https');
 const apiKey="9d871ad2b9208dc3684541b72083256e";
 const city="Nur-sultan";
 const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+const bodyParser=require('body-parser');
 
-
-exports.create= async (req,res)=>{
+exports.register= async (req,res)=>{
     if(!req.body.email && !req.body.password && !req.body.fullName){
         res.status(400).send({ message:"Must be filled!"});
     }
@@ -25,6 +25,32 @@ await user.save().then(data => {
   
     res.render('results', {mydata: err.message || "Some error occurred while creating user"})
 });
+};
+
+exports.login = async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    UserModel.findOne({email: email}, function(err, foundUser){
+        if (err) {
+            res.send("404")
+        } else {
+            if (foundUser) {
+                if (foundUser.password === password) {
+                    https.get(ownSite, function(response){
+                        response.on("data", function(data){
+                            const weatherData = JSON.parse(data);
+                            const temperature=weatherData.main.temp;
+                            res.render('main',{temperature: temperature+"C"})
+                        });
+                
+                   });
+                }
+                else{
+                        res.status(400).json({message: "Wrong password"})
+                    }
+            }
+        }
+    });
 };
 
 exports.findAll = async (req, res) => {
@@ -103,24 +129,7 @@ exports.destroy = async (req, res) => {
         res.status(500).render('results', {mydata: err.message})
     });
 };
-exports.login=async(req,res)=>{
-    try{
-        const{email,password}=req.body;
-        const user = await UserModel.findOne({email});
-        if(!user){
-            res.status(400).json({message: "Error"})
-        }
-        const validPassword = (password == user.password);
-        if(!validPassword){
-            res.status(400).json({message: "Wrong password"})
-        }
-        res.render('index');
-    }
-        catch(e){
-            console.log(e);
-        }
 
-}
 exports.findAll = async (req, res) => {
     try {
         const user = await UserModel.find();
