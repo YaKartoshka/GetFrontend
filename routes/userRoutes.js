@@ -8,7 +8,7 @@ router.patch('/:email',urlencodedParser, userController.update);
 router.delete('/delete/:email', userController.destroy);
 router.get('/find/:email',urlencodedParser, userController.findOne);
 router.post('/',urlencodedParser, userController.register);
-router.post('/user/login',urlencodedParser, userController.login);
+router.post('/main',urlencodedParser, userController.login);
 router.get('/results/', urlencodedParser,userController.findAll);
 
 module.exports= router
