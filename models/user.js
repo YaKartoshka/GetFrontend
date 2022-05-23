@@ -1,17 +1,20 @@
-var mongoose = require('mongoose');
-var encrypt = require('mongoose-encryption');
+const mongoose = require('mongoose');
+const passportLocalMongoose=require('passport-local-mongoose')
+const passport=require('passport')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const findOrCreate = require('mongoose-findorcreate')
 
 var schema = new mongoose.Schema({
-    email: {
+    username:{
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
+    password:{
+        type: String,
+       
+    },
+    googleId: String,
     fullName: {
-        type: String,
-        default: ''
-    },
-    password: {
         type: String,
         default: ''
     },
@@ -22,7 +25,14 @@ var schema = new mongoose.Schema({
 });
 
 
-schema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
 
-var User = new mongoose.model('User', schema);
+schema.plugin(passportLocalMongoose)
+
+
+let User = new mongoose.model("User", schema);
+//level 5
+passport.use(User.createStrategy())
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+//
 module.exports = User;

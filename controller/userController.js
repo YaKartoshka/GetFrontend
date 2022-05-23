@@ -6,52 +6,53 @@ const apiKey="9d871ad2b9208dc3684541b72083256e";
 const city="Nur-sultan";
 const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 const bodyParser=require('body-parser');
-
-exports.register= async (req,res)=>{
-    if(!req.body.email && !req.body.password && !req.body.fullName){
-        res.status(400).send({ message:"Must be filled!"});
-    }
-    console.log("launched")
-const user = UserModel({
-    email: req.body.email,
-    password: req.body.password,
-    fullName: req.body.fullName,
-    root: 'user'
-});
-await user.save().then(data => {
- 
-    res.render('results', {mydata: "user "+ data.fullName +" created succesfully!"})
-}).catch(err => {
+const passport=require('passport');
+exports.register = async (req, res) => {
+    UserModel.register({username: req.body.username}, req.body.password, function (err, user) {
+        if (err){
+            console.log(err)
+            res.redirect("/sign_up")
+        }else {
+            passport.authenticate("local")(req, res, function () {
+                https.get(ownSite, function(response){
+                    response.on("data", function(data){
+                        const weatherData = JSON.parse(data);
+                        const temperature=weatherData.main.temp;
+                        res.render('index',{temperature: temperature+"C"})
+                    });
+            
+               });
+            });
+        }
+    })
   
-    res.render('results', {mydata: err.message || "Some error occurred while creating user"})
-});
 };
 
 exports.login = async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    UserModel.findOne({email: email}, function(err, foundUser){
-        if (err) {
-            res.send("404")
-        } else {
-            if (foundUser) {
-                if (foundUser.password === password) {
+    
+        let user =new UserModel({
+            username:req.body.username,
+            password:req.body.password
+        })
+
+        req.login(user, function (err){
+            if (err){
+                console.log(err)
+            }else {
+                passport.authenticate("local")(req, res, function () {
                     https.get(ownSite, function(response){
                         response.on("data", function(data){
                             const weatherData = JSON.parse(data);
                             const temperature=weatherData.main.temp;
-                            res.render('main',{temperature: temperature+"C"})
+                            res.render('index',{temperature: temperature+"C"})
                         });
                 
                    });
-                }
-                else{
-                        res.status(400).json({message: "Wrong password"})
-                    }
+                });
             }
-        }
-    });
-};
+        })
+    }
+    
 
 exports.findAll = async (req, res) => {
 try {

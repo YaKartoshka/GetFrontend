@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 
 const express = require("express");
 const path=require('path');
@@ -11,13 +11,25 @@ const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=$
 const fs = require('fs');
 const UserModel = require('./models/user.js')
 const bodyParser=require('body-parser');
-const encrypt = require('mongoose-encryption');
+const passport=require('passport')
 const userRoute=require('./routes/userRoutes.js')
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbConfig = require('./config/database.config.js');
 const mongoose=require('mongoose');
 const cool = require('cool-ascii-faces');
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const session = require('express-session')
+const bcrypt = require('bcrypt');
+const md5 = require('md5');
+app.use(bodyParser.urlencoded({extended: true}));
+        
+app.use(session({
+    secret: "then we need to replace it to .env file",
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/', userRoute);
 app.use(express.json());
@@ -30,30 +42,50 @@ mongoose.connect(dbConfig.url, {
     console.log('Не подключено', err); 
     process.exit(); 
 });
-app.use('/user', userRoute)
+app.use('/', userRoute)
 
 app.use('/css', express.static(__dirname + '/public'))
 const ejs=require('ejs');
 const { response } = require("express");
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
- 
+
+app.get("/auth/google",
+passport.authenticate('google',{ scope: ["profile"] })
+)
+app.get('/auth/google/index',
+passport.authenticate('google', { failureRedirect: '/sign_up' }),
+function(req, res) {
+   
+    res.redirect('/index');
+});
+
 app.get('/',function (req,res){
   res.render('sign_in');
     
 })
+app.get('/sign_in',function (req,res){
+    res.render('sign_in');
+      
+  })
+   
+  
 
-app.get('/main',function (req,res){
-    https.get(ownSite, function(response){
-        response.on("data", function(data){
-            const weatherData = JSON.parse(data);
-            const temperature=weatherData.main.temp;
-            res.render('main',{temperature: temperature+"C"})
-        });
-
-   });
+app.get("/index", function(req, res){
+    if(req.isAuthenticated()){
+        https.get(ownSite, function(response){
+            response.on("data", function(data){
+                const weatherData = JSON.parse(data);
+                const temperature=weatherData.main.temp;
+                res.render('index',{temperature: temperature+"C"})
+            });
     
-})
+       });
+    }else{
+        res.redirect("sign_in")
+    }
+});
+
 
 app.get('/about_css',function (req,res){
     https.get(ownSite, function(response){
