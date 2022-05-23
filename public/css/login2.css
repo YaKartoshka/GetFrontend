@@ -16,6 +16,7 @@
   }
 .dead_inside{
     padding-top: 25%;
+   
   }
   #login_title{
     display: flex;
@@ -28,7 +29,12 @@
   font-size: 5vw;
   color:  rgb(209,56,26);
   }
-  
+  .fab{
+      color: white;
+  }
+  #googlea{
+      color: #fff;
+  }
   #code{
     font-size: 5vw;
     color:rgb(0,155,215);

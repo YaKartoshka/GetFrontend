@@ -1,4 +1,4 @@
-//require('dotenv').config();
+require('dotenv').config();
 
 const express = require("express");
 const path=require('path');
@@ -11,11 +11,12 @@ const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=$
 const fs = require('fs');
 const UserModel = require('./models/user.js')
 const bodyParser=require('body-parser');
+const mongoose=require('mongoose');
 const passport=require('passport')
 const userRoute=require('./routes/userRoutes.js')
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbConfig = require('./config/database.config.js');
-const mongoose=require('mongoose');
+
 const cool = require('cool-ascii-faces');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session')
@@ -50,15 +51,7 @@ const { response } = require("express");
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
 
-app.get("/auth/google",
-passport.authenticate('google',{ scope: ["profile"] })
-)
-app.get('/auth/google/index',
-passport.authenticate('google', { failureRedirect: '/sign_up' }),
-function(req, res) {
-   
-    res.redirect('/index');
-});
+
 
 app.get('/',function (req,res){
   res.render('sign_in');
@@ -119,6 +112,17 @@ app.get('/about_html',function (req,res){
 
    });
 })
+
+app.get("/auth/google",
+    passport.authenticate('google',{ scope: ["profile"] })
+)
+
+app.get('/auth/google/index',
+    passport.authenticate('google', { failureRedirect: '/sign_up' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/index');
+    });
 
 app.get('/sign_up',function (req,res){
     res.render('sign_up')
