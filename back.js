@@ -20,11 +20,16 @@ const dbConfig = require('./config/database.config.js');
 const cool = require('cool-ascii-faces');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session')
+const MemoryStore = require('memorystore')(session)
 const bcrypt = require('bcrypt');
 const md5 = require('md5');
 app.use(bodyParser.urlencoded({extended: true}));
         
 app.use(session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000
+    }),
     secret: "then we need to replace it to .env file",
     resave: false,
     saveUninitialized: false
