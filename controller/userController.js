@@ -7,6 +7,7 @@ const city="Nur-sultan";
 const ownSite=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 const bodyParser=require('body-parser');
 const passport=require('passport');
+const { redirect } = require('express/lib/response');
 exports.register = async (req, res) => {
     UserModel.register({username: req.body.username}, req.body.password, function (err, user) {
         if (err){
@@ -38,6 +39,7 @@ exports.login = async (req, res) => {
         req.login(user, function (err){
             if (err){
                 console.log(err)
+                redirect("/sign_in")
             }else {
                 passport.authenticate("local")(req, res, function () {
                     https.get(ownSite, function(response){
