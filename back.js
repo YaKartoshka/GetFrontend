@@ -126,7 +126,7 @@ app.get('/auth/google/index',
     passport.authenticate('google', { failureRedirect: '/sign_up' }),
     function(req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/index');
+        res.redirect('https://immense-wildwood-82935.herokuapp.com/index');
     });
 
 app.get('/sign_up',function (req,res){
