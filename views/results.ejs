@@ -82,7 +82,7 @@
                         <table>
                             <tr><td>Full Name</td><td>Email</td><td>Password</td></tr>
                         <%for(let a=0;a <mydata.length;a++){%>
-                            <tr><td><%=mydata[a].fullName%></td><td><%=mydata[a].email%></td><td><%=mydata[a].password%></td></tr>
+                            <tr><td><%=mydata[a].fullName%></td><td><%=mydata[a].username%></td><td><%=mydata[a].hash%></td></tr>
                         <%}%>
                         </table>
                     <%}else{%>

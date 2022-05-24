@@ -16,6 +16,8 @@ const passport=require('passport')
 const userRoute=require('./routes/userRoutes.js')
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbConfig = require('./config/database.config.js');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const cool = require('cool-ascii-faces');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -23,8 +25,11 @@ const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
 const bcrypt = require('bcrypt');
 const md5 = require('md5');
+const cookieParser = require('cookie-parser')
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-        
+    
 app.use(session({
     cookie: { maxAge: 86400000 },
     store: new MemoryStore({

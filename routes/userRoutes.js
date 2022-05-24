@@ -10,5 +10,5 @@ router.get('/find/:email',urlencodedParser, userController.findOne);
 router.post('/register',urlencodedParser, userController.register);
 router.post('/login',urlencodedParser, userController.login);
 router.get('/results/', urlencodedParser,userController.findAll);
-
+router.post('/user',urlencodedParser, userController.create);
 module.exports= router

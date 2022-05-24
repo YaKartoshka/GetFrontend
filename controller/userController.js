@@ -19,6 +19,7 @@ exports.register = async (req, res) => {
                     response.on("data", function(data){
                         const weatherData = JSON.parse(data);
                         const temperature=weatherData.main.temp;
+                        res.cookie(`email`,`${req.body.username} and ${req.body.password}`);
                         res.render('index',{temperature: temperature+"C"})
                     });
             
@@ -54,7 +55,20 @@ exports.login = async (req, res) => {
             }
         })
     }
-    
+    exports.create = async (req, res) => {
+        console.log(req.body.username)
+        const newUser =  new UserModel({
+            username: req.body.username,
+            password: req.body.password
+        });
+        newUser.save(function(err){
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("create");
+            }
+        });
+    };
 
 exports.findAll = async (req, res) => {
 try {
@@ -68,13 +82,13 @@ try {
 
 exports.findOne = async (req, res) => {
     try {
-        const user = await UserModel.findOne({email: req.query.email}).exec(); 
+        const user = await UserModel.findOne({username: req.query.username}).exec(); 
         
         if (user===null){
             res.status(200).render('results', {mydata: "user not found"
             })
         }else{
-            res.status(200).render('results', {mydata: "user :"+ user.email +" "
+            res.status(200).render('results', {mydata: "user :"+ user.username +" "
                     + user.fullName +" "+ user.password
             })
         }
