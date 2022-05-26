@@ -1,59 +1,178 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Get Frontend CRUD",
-      "description": "",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
-      }
-    },
-    "host": "localhost:4000",
-    "basePath": "/",
-    "tags": [
-      {
-        "name": "Users",
-        "description": "API for users in the system"
-      }
-    ],
-    "schemes": ["http"],
-    "consumes": ["application/json"],
-    "produces": ["application/json"],
-    "paths": {
-      "/users": {
-        "get": {
-          "tags": ["Users"],
-          "summary": "Get all users in system",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My User Project CRUD",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "AITU",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/results": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all users in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
             }
           }
         }
       }
     },
-    "definitions": {
-      "User": {
-        "required": ["email", "_id"],
-        "properties": {
-          "username": {
-            "type": "string"
+    "/create": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json/ejs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Era",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
-          "password": {
-            "type": "string"
-          },
-          "googleId": {
-            "type": "string"
+          "409": {
+            "description": "Database error"
           }
         }
-      },
-      "Users": {
-        "type": "array",
-        "$ref": "#/definitions/User"
       }
+    },
+    "/delete/:username": {
+      "delete": {
+        "summary": "Delete user with given email",
+        "tags": [
+          "User"
+        ],
+            "description": "User is deleted",
+            "parameters": [
+              {
+                "name": "user",
+                "in": "body",
+                "description": "User that we want to delete",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            ],
+            "produces": [
+              "application/json/ejs"
+            ],
+            "responses": {
+              "200": {
+                "description": "Era",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              },
+              "409": {
+                "description": "Database error"
+              }
+            }
+        
+      }
+   },
+  "/update/:username": {
+    "patch": {
+      "summary": "Update user with given email",
+      "tags": [
+        "User"
+      ],
+      "properties": {
+        "newusername": {
+          "type": "string"
+        },
+        "newfullName": {
+          "type": "string"
+        },
+        "newpassword": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+          "description": "User is updated",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to update",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "produces": [
+            "application/json/ejs"
+          ],
+          "responses": {
+            "200": {
+              "description": "Era",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "409": {
+              "description": "Database error"
+            }
+          }
+      
     }
+  }
+},
+  "definitions": {
+    "User": {
+      "required": ["email"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string",
+          "default": ""
+        },
+        "googleId": {
+          "type": "string"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    }
+  }
   }

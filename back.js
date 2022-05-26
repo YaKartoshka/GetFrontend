@@ -12,6 +12,7 @@ const fs = require('fs');
 const UserModel = require('./models/user.js')
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
+const methodOverride = require('method-override')
 const passport=require('passport')
 const userRoute=require('./routes/userRoutes.js')
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -29,7 +30,8 @@ const cookieParser = require('cookie-parser')
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-    
+app.use(bodyParser.json())
+app.use(methodOverride('_method'))
 app.use(session({
     cookie: { maxAge: 86400000 },
     store: new MemoryStore({

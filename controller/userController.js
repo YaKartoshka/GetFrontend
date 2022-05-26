@@ -56,17 +56,25 @@ exports.login = async (req, res) => {
         })
     }
     exports.create = async (req, res) => {
-        console.log(req.body.username)
-        const newUser =  new UserModel({
+        if (!req.body.username && !req.body.fullName && !req.body.password) {
+            
+            console.log("empty")
+        }
+        console.log("working");
+        const user = new UserModel({
             username: req.body.username,
+            fullName: req.body.fullName,
+            
             password: req.body.password
         });
-        newUser.save(function(err){
-            if (err) {
-                console.log(err);
-            } else {
-                res.render("create");
-            }
+        
+        await user.save().then(data => {
+           
+            console.log(`user "+ ${data.fullName} +" created succesfully!`)
+            res.render('create')
+        }).catch(err => {
+           
+                  console.log(err);
         });
     };
 
@@ -100,50 +108,54 @@ exports.findOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-if(!req.body) {
-    res.status(400).send({
-        message: "Data to update can not be empty!"
-    });
-}
-console.log("launched")
-const id = req.body.oldEmail;
 
-await UserModel.findOneAndUpdate({email: query}, {email:req.body.newEmail,
-    fullName:req.body.newfullName,
-    password:req.body.newpassword,
-   
-}).then(data => {
-    console.log(data)
-    if (!data) {
-        
-        res.status(404).render('results', {mydata: `User not found.`})
-    }else{
-    
-        res.render('update');
+    if (!req.body.newemail || !req.body.newfullName || !req.body.newpassword || !req.body.username) {
+       
+        res.status(400).render('results', {mydata: "Data to update can not be empty!"})
+        return
     }
-}).catch(err => {
 
-    res.status(500).render('results', {mydata: err.message})
-});
+   
+    const query = req.body.username;
+
+   
+    await UserModel.findOneAndUpdate({username: query}, {username:req.body.newemail,
+        fullName:req.body.newfullName,
+        password:req.body.newpassword,
+        username:req.body.newEmail
+    }).then(data => {
+        console.log(data)
+        if (!data) {
+            console.log("User not found");
+            res.render('update')
+        }else{
+            console.log("User updated");
+            res.render('update')
+        }
+    }).catch(err => {
+        console.log(err);
+        res.render('update')
+    });
 };
 
 exports.destroy = async (req, res) => {
+
+
+    let useremail=req.body.username
+    await UserModel.deleteOne({username: useremail}).then(data => {
    
-    let useremail=req.body.email
-    await UserModel.deleteOne({email: req.body.email}).then(data => {
- 
         if (data.deletedCount===0) {
-  
-            res.status(404).render('results', {mydata: "User not found"})
+         
+            console.log("User not found")
 
         } else {
-     
-
-            res.render('results', {mydata: "user "+useremail+" deleted succesfully!"})
+            
+            console.log("user "+useremail+" deleted succesfully!")
+            res.render('delete')
         }
     }).catch(err => {
-        
-        res.status(500).render('results', {mydata: err.message})
+     
+       console.log(err);
     });
 };
 
