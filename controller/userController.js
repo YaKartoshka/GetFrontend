@@ -108,21 +108,15 @@ exports.findOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-
-    if (!req.body.newemail || !req.body.newfullName || !req.body.newpassword || !req.body.username) {
-       
-        res.status(400).render('results', {mydata: "Data to update can not be empty!"})
-        return
-    }
-
+    console.log("update launched")
+  
    
     const query = req.body.username;
 
    
-    await UserModel.findOneAndUpdate({username: query}, {username:req.body.newemail,
+    await UserModel.findOneAndUpdate({username: query}, {username:req.body.username,
         fullName:req.body.newfullName,
         password:req.body.newpassword,
-        username:req.body.newEmail
     }).then(data => {
         console.log(data)
         if (!data) {

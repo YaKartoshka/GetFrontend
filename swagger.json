@@ -111,10 +111,10 @@
         "newusername": {
           "type": "string"
         },
-        "newfullName": {
+        "fullName": {
           "type": "string"
         },
-        "newpassword": {
+        "password": {
           "type": "string"
         },
         "username": {
